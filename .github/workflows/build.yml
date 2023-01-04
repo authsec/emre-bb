@@ -1,11 +1,11 @@
-name: AMD64 Build
+name: Base Image Build
 
 on:
   push:
 
 jobs:
   buildx:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     timeout-minutes: 1440
     steps:
       - 
