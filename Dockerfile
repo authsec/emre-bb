@@ -1,7 +1,7 @@
 ARG EMACS_VERSION="28.2"
 
 FROM authsec/sphinx
-LABEL maintainer="Jens Frey <jens.frey@coffeecrew.org>" Version="2022-12-02"
+LABEL maintainer="Jens Frey <jens.frey@coffeecrew.org>" Version="2023-03-01"
 
 ARG EMACS_VERSION
 ENV EMACS_VERSION=$EMACS_VERSION
