@@ -1,7 +1,7 @@
-ARG EMACS_VERSION="28.2"
+ARG EMACS_VERSION="29.1"
 
 FROM authsec/sphinx
-LABEL maintainer="Jens Frey <jens.frey@coffeecrew.org>" Version="2023-03-01"
+LABEL maintainer="Jens Frey <jens.frey@coffeecrew.org>" Version="2023-09-17"
 
 ARG EMACS_VERSION
 ENV EMACS_VERSION=$EMACS_VERSION
@@ -19,6 +19,7 @@ RUN apt-get update && apt-get -y upgrade && \
         texinfo \
         install-info \
         build-essential \
+        libtree-sitter-dev \
         libjansson-dev \
         libgtk-3-dev \
         libtiff5-dev \
@@ -79,7 +80,8 @@ RUN ./autogen.sh && \
         --with-tiff=yes \
         --with-rsvg \
         --without-compress-install \
-        --with-native-compilation \
+        --with-tree-sitter \
+        --with-native-compilation=aot \
         --with-modules \
         --with-xinput2 \
         CFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security" \
@@ -102,3 +104,10 @@ RUN git clone --depth 1 https://github.com/domtronn/all-the-icons.el.git /tmp/al
 # Install nerd fonts
 WORKDIR /tmp
 RUN git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+
+# Get google fonts
+RUN curl -sSL https://github.com/google/fonts/archive/main.zip -o gfonts.zip && unzip gfonts.zip 
+
+# Create ttf tmp font dir 
+WORKDIR /ttf
+RUN cp -R /tmp/nerd-fonts/patched-fonts/* /tmp/fonts-main/ofl/* /tmp/fonts-main/apache/* /tmp/fonts-main/ufl/* /ttf
